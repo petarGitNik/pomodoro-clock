@@ -86,6 +86,7 @@ h1 {
   width: 40px;
   height: 40px;
   background-color: black;
+  margin-bottom: 5px;
 }
 
 .clock-controls:hover {
