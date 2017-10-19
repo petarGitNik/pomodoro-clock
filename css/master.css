@@ -1,118 +1,68 @@
 body {
-  text-align: center;
+    text-align: center;
+    background-color: #EFEFEF;
+    color: #EFEFEF;
 }
 
 h1 {
+  color: #424242;
+  margin-top: 200px;
   font-style: italic;
 }
 
-#session, #break {
-  height: 200px;
-  width: 200px;
-  border-radius: 100px;
+.setters, .clock {
+  width: 440px;
+  margin: 0 auto;
+  background-color: #333333;
+}
+
+.clock {
+  margin-top: 20px;
+}
+
+.session, .break {
+  width: 50%;
+  display: block;
+  float: left;
+}
+
+.clearer {
+  clear: both;
+  height: 20px;
+}
+
+#indicator {
+  padding: 20px 0;
 }
 
 #clock {
-  height: 250px;
-  width: 250px;
-  border-radius: 125px;
-  background-color: yellow;
+  padding-bottom: 20px;
+  font-size: 2em;
 }
 
-.session-break {
-  width: 606px;
-  margin: 0 auto;
-  height: 200px;
-  margin-bottom: 54px;
+.controls {
+  padding-bottom: 20px;
 }
 
-#session {
-  display: block;
-  float: left;
-  background-color: green;
+.btn {
+  margin: 0 20px;
+  display: inline-block;
+  cursor: pointer;
 }
 
-#session p, #break p {
-  margin-bottom: 24px;
+i:hover {
+  color: #FFD900;
 }
 
-#break {
-  display: block;
-  float: right;
-  background-color: red;
+.setter-controls span > i:hover {
+  color: #00CCD6;
 }
 
-#clock {
-  margin: 0 auto;
+#session-time, #break-time {
+  display: inline-block;
+  width: 20px;
 }
 
-#time-session, #time-break {
-  margin: 20px 0;
-}
-
-#up-session,
-#up-break,
-#down-session,
-#down-break {
-  width: 0;
-  height: 0;
-  border-left: 20px solid transparent;
-  border-right: 20px solid transparent;
-
-  margin: 0 auto;
-}
-
-#up-session,
-#up-break {
-  border-bottom: 20px solid black;
-}
-
-#up-session:hover,
-#up-break:hover {
-  border-bottom: 20px solid gray;
-}
-
-#down-session,
-#down-break {
-  border-top: 20px solid black;
-}
-
-#down-session:hover,
-#down-break:hover {
-  border-top: 20px solid gray;
-}
-
-.clock-controls {
-  width: 40px;
-  height: 40px;
-  background-color: black;
-  margin-bottom: 5px;
-}
-
-.clock-controls:hover {
-  background-color: gray;
-}
-
-/*
-.l-bond, .r-bond {
-  background-color: gray;
-  height: 50px;
-  width: 300px;
-}
-
-.l-bond {
-  float: left;
-  transform: rotate(52deg);
-  margin-left: 650px;
-}
-
-.r-bond {
-  float: right;
-  transform: rotate(-52deg);
-  margin-right: 650px;
-}
-*/
-
-/** {
-  border: 1px solid black;
+/* {
+  border: 1px dashed black;
 }*/

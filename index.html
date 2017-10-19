@@ -2,6 +2,7 @@
 <html>
   <head>
     <meta charset="utf-8">
+    <link rel="stylesheet" href="css/font-awesome.min.css">
     <link rel="stylesheet" href="css/master.css">
     <title>Pomodoro Clock</title>
   </head>
@@ -9,47 +10,40 @@
 
     <h1>Pomodoro Clock</h1>
 
-    <div class="session-break">
-      <div id="session">
-        <p>Session</p>
-        <div id="up-session"></div>
-        <div id="time-session">
-          25
+    <div class="setters">
+      <div class="session">
+        <div class="setter-title">
+          <h2>Session</h2>
         </div>
-        <div id="down-session"></div>
-      </div>
-
-      <div id="break">
-        <p>Break</p>
-        <div id="up-break"></div>
-        <div id="time-break">
-          5
+        <div class="setter-controls">
+          <span id="increase-session" class="btn"><i class="fa fa-plus"></i></span><span id="session-time">25</span><span id="decrease-session" class="btn"><i class="fa fa-minus"></i></span>
         </div>
-        <div id="down-break"></div>
       </div>
+      <div class="break">
+        <div class="setter-title">
+          <h2>Break</h2>
+        </div>
+        <div class="setter-controls">
+          <span id="increase-break" class="btn"><i class="fa fa-plus"></i></span><span id="break-time">5</span><span id="decrease-break" class="btn"><i class="fa fa-minus"></i></span>
+        </div>
+      </div>
+      <div class="clearer"></div>
     </div>
 
-    <!--
-    <div class="l-bond">
-
-    </div>
-
-    <div class="r-bond">
-
-    </div>
-    -->
-
-    <div id="clock">
-      <p id="indicator">Session</p>
-      <p id="timer">25:00</p>
+    <div class="clock">
+      <div id="indicator">
+        Session
+      </div>
+      <div id="clock">
+        25:00
+      </div>
       <div class="controls">
-        <div id="start" class="clock-controls"></div>
-        <div id="pause" class="clock-controls"></div>
-        <div id="stop" class="clock-controls"></div>
-        <div id="reset" class="clock-controls"></div>
+        <span id="play" class="btn"><i class="fa fa-2x fa-play"></i></span><!--
+        --><span id="pause" class="btn"><i class="fa fa-2x fa-pause"></i></span><!--
+        --><span id="stop" class="btn"><i class="fa fa-2x fa-stop"></i></span><!--
+        --><span id="reset" class="btn"><i class="fa fa-2x fa-refresh"></i></span>
       </div>
     </div>
 
-    <script type="text/javascript" src="js/main.js"></script>
   </body>
 </html>
