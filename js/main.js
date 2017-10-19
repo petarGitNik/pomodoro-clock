@@ -1,7 +1,9 @@
 class pomodoroClock {
-  constructor (seconds, timeString) {
+  constructor (seconds, timeString, session) {
     this._timeInSeconds = seconds;
     this._timeString = timeString;
+    this._session = session;
+    this._break = !session;
   }
 
   get timeInSeconds() {
@@ -10,6 +12,19 @@ class pomodoroClock {
 
   get timeString() {
     return this._timeString;
+  }
+
+  get session() {
+    return this._session;
+  }
+
+  get break() {
+    return this._break;
+  }
+
+  set session(info) {
+    this._session = info;
+    this._break = !info;
   }
 
   changeTime(seconds) {
@@ -59,6 +74,8 @@ function decrementTime(timeObject) {
   if (currentTime > 0) {
     timeObject.changeTime(currentTime - 1);
     changeTimer(timeObject.timeInSeconds);
+  } else {
+    timeObject.changeTime(300);
   }
 }
 
@@ -74,7 +91,7 @@ function changeAndDecrement(timeObject) {
 function onLoad() {
 
   let timerOn = false;
-  let pomodoro = new pomodoroClock(25, '25:00');
+  let pomodoro = new pomodoroClock(25, '25:00', true);
 
   // Incremment session time
   document.getElementById('up-session').addEventListener('click', function() {
