@@ -4,8 +4,14 @@ let isTimerOn = false;
 let isPaused = false;
 let currentTime; // [sec]
 
+let isSession;
+let isBreak;
+
 let defaultTime = 25; // [min]
 let defaultBreak = 5; // [min]
+
+let userTime; // [min]
+let userBreak; // [min]
 
 // Functions
 function getMMSS(time) {
@@ -65,74 +71,74 @@ function changeTimer(time, timerObject) {
 }
 
 
-function countdown(timerObject) {
+function countdown(timerObject, indicatorObject) {
   /*
    * Decrement timer and display it on page.
    */
-  currentTime--;
+  // if (currentTime < 0) { ... }
   if (currentTime >= 0) {
+    isBreak ? indicatorObject.text('Break') : indicatorObject.text('Session');
     changeTimer(currentTime, timerObject);
+    currentTime--;
+  } else {
+    // This takes up an extra second, how to rewrite this method?
+    [isSession, isBreak] = [isBreak, isSession];
+    currentTime = isBreak ? userBreak * 60 : userTime * 60;
   }
 }
 
 
 $(document).ready(function() {
 
-  // jQuery increase-decrease functions
-  function increaseSessionTime() {
+  function clearAndDefault() {
+    isPaused = false;
+    isTimerOn = false;
+    clearInterval(timerId);
+    $('#indicator').text('Session');
+  }
+
+  $('#increase-session').on('click', function() {
     $('#session-time').text(Number($('#session-time').text()) + 1);
     let timeInSeconds = Number($('#session-time').text()) * 60;
     changeTimer(timeInSeconds, $('#clock'))
-  }
+  });
 
-  function increaseBreakTime() {
+  $('#increase-break').on('click', function() {
     $('#break-time').text(Number($('#break-time').text()) + 1);
-  }
+  });
 
-  function decreaseSessionTime() {
+  $('#decrease-session').on('click', function() {
     let sessionTime = Number($('#session-time').text());
     if (sessionTime > 1) {
       $('#session-time').text(sessionTime - 1);
       let timeInSeconds = Number($('#session-time').text()) * 60;
       changeTimer(timeInSeconds, $('#clock'))
     }
-  }
+  });
 
-  function decreaseBreakTime() {
+  $('#decrease-break').on('click', function() {
     let breakTime = Number($('#break-time').text());
     if (breakTime > 1) {
       $('#break-time').text(breakTime - 1);
     }
-  }
-
-  function attachSessionBreakControls() {
-    $('#increase-session').on('click', increaseSessionTime);
-    $('#increase-break').on('click', increaseBreakTime);
-    $('#decrease-session').on('click', decreaseSessionTime);
-    $('#decrease-break').on('click', decreaseBreakTime);
-  }
-
-  function detachSessionBreakControls() {
-    $('#increase-session').off();
-    $('#increase-break').off();
-    $('#decrease-session').off();
-    $('#decrease-break').off();
-  }
-
-  attachSessionBreakControls();
+  });
 
   $('#play').on('click', function() {
-    if (!currentTime) {
-      // if session, then current time == sessionTime
-      // else, if break then current time == breakTime
-      currentTime = Number($('#session-time').text()) * 60;
+    currentTime = isPaused ? currentTime : Number($('#session-time').text()) * 60;
+
+    userTime = Number($('#session-time').text());
+    userBreak = Number($('#break-time').text());
+
+    if (typeof isSession === 'undefined') {
+      isSession = true;
+      isBreak = !isSession;
     }
+
     if (!isTimerOn) {
         isTimerOn = true;
         isPaused = false;
-        timerId = setInterval(countdown, 1000, $('#clock'));
+        timerId = setInterval(countdown, 1000, $('#clock'), $('#indicator'));
     }
-    detachSessionBreakControls();
   });
 
   $('#pause').on('click', function() {
@@ -142,27 +148,21 @@ $(document).ready(function() {
   });
 
   $('#stop').on('click', function() {
-    isPaused = false;
-    isTimerOn = false;
-    clearInterval(timerId);
+    clearAndDefault();
 
     let timeInSeconds = Number($('#session-time').text()) * 60;
     currentTime = timeInSeconds;
     changeTimer(timeInSeconds, $('#clock'));
-    attachSessionBreakControls();
   });
 
   $('#reset').on('click', function() {
-    isPaused = false;
-    isTimerOn = false;
-    clearInterval(timerId);
+    clearAndDefault();
 
     $('#session-time').text(defaultTime);
     $('#break-time').text(defaultBreak);
 
     currentTime = defaultTime * 60;
     changeTimer(defaultTime * 60, $('#clock'));
-    attachSessionBreakControls();
   });
 
 });
