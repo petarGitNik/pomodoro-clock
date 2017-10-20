@@ -30,7 +30,7 @@ function getMMSS(time) {
 
 function padding(number) {
   /*
-   * pad a digit on the left with the zero, if number leave it as is
+   * Pad a digit on the left with the zero, if number leave it as is
    * keep in mind that in case of digit it returns a string, and in case of
    * a number it returns it with original type (could be number, could be string)
    */
@@ -58,13 +58,13 @@ function changeTimer(time, timerObject) {
   /*
    * Change the timer on the webpage, timerObject is jQuery object
    */
-   if (time < 60 && time >= 30) {
+  if (time < 60 && time >= 30) {
     timerObject.css({'color': '#FFD900'});
-   } else if (time < 30) {
+  } else if (time < 30) {
     timerObject.css({'color': '#F34826'});
-   } else {
+  } else {
     isPaused || isTimerOn ? timerObject.css({'color': '#00CCD6'}) : timerObject.css({'color': '#EFEFEF'});
-   }
+  }
 
   let timeMMSS = getMMSS(time);
   timerObject.text(prettifyTimer(timeMMSS[0], timeMMSS[1], timeMMSS[2]));
@@ -75,7 +75,6 @@ function countdown(timerObject, indicatorObject) {
   /*
    * Decrement timer and display it on page.
    */
-  // if (currentTime < 0) { ... }
   if (currentTime < 0) {
     [isSession, isBreak] = [isBreak, isSession];
     currentTime = isBreak ? userBreak * 60 : userTime * 60;
@@ -84,11 +83,7 @@ function countdown(timerObject, indicatorObject) {
     isBreak ? indicatorObject.text('Break') : indicatorObject.text('Session');
     changeTimer(currentTime, timerObject);
     currentTime--;
-  } /*else {
-    // This takes up an extra second, how to rewrite this method?
-    [isSession, isBreak] = [isBreak, isSession];
-    currentTime = isBreak ? userBreak * 60 : userTime * 60;
-  }*/
+  }
 }
 
 
@@ -99,34 +94,56 @@ $(document).ready(function() {
     isTimerOn = false;
     clearInterval(timerId);
     $('#indicator').text('Session');
+    attachSessionBreakControls();
   }
 
-  $('#increase-session').on('click', function() {
+
+  function increaseSessionTime() {
     $('#session-time').text(Number($('#session-time').text()) + 1);
     let timeInSeconds = Number($('#session-time').text()) * 60;
     changeTimer(timeInSeconds, $('#clock'))
-  });
+  }
 
-  $('#increase-break').on('click', function() {
+  function increaseBreakTime() {
     $('#break-time').text(Number($('#break-time').text()) + 1);
-  });
+  }
 
-  $('#decrease-session').on('click', function() {
+  function decreaseSessionTime() {
     let sessionTime = Number($('#session-time').text());
     if (sessionTime > 1) {
       $('#session-time').text(sessionTime - 1);
       let timeInSeconds = Number($('#session-time').text()) * 60;
       changeTimer(timeInSeconds, $('#clock'))
     }
-  });
+  }
 
-  $('#decrease-break').on('click', function() {
+  function decreaseBreakTime() {
     let breakTime = Number($('#break-time').text());
     if (breakTime > 1) {
       $('#break-time').text(breakTime - 1);
     }
-  });
+  }
 
+
+  function attachSessionBreakControls() {
+    $('#increase-session').on('click', increaseSessionTime);
+    $('#increase-break').on('click', increaseBreakTime);
+    $('#decrease-session').on('click', decreaseSessionTime);
+    $('#decrease-break').on('click', decreaseBreakTime);
+  }
+
+  function detachSessionBreakControls() {
+    $('#increase-session').off();
+    $('#increase-break').off();
+    $('#decrease-session').off();
+    $('#decrease-break').off();
+  }
+
+
+  // Session and break controls
+  attachSessionBreakControls();
+
+  // Pomodoro clock controls
   $('#play').on('click', function() {
     currentTime = isPaused ? currentTime : Number($('#session-time').text()) * 60;
 
@@ -143,6 +160,8 @@ $(document).ready(function() {
         isPaused = false;
         timerId = setInterval(countdown, 1000, $('#clock'), $('#indicator'));
     }
+
+    detachSessionBreakControls();
   });
 
   $('#pause').on('click', function() {
