@@ -10,8 +10,8 @@ let defaultBreak = 5; // [min]
 // Functions
 function getMMSS(time) {
   /*
-  * The input time is in seconds i.e. the input of 1470 returns [27, 30]
-  */
+   * The input time is in seconds i.e. the input of 1470 returns [27, 30]
+   */
   let hours = Math.floor(time / 3600);
   let remainder = time % 3600;
 
@@ -24,10 +24,10 @@ function getMMSS(time) {
 
 function padding(number) {
   /*
-  * pad a digit on the left with the zero, if number leave it as is
-  * keep in mind that in case of digit it returns a string, and in case of
-  * a number it returns it with original type (could be number, could be string)
-  */
+   * pad a digit on the left with the zero, if number leave it as is
+   * keep in mind that in case of digit it returns a string, and in case of
+   * a number it returns it with original type (could be number, could be string)
+   */
   if (number.toString().length === 1) {
     return '0' + number;
   } else {
@@ -78,31 +78,48 @@ function countdown(timerObject) {
 
 $(document).ready(function() {
 
-  $('#increase-session').on('click', function() {
+  // jQuery increase-decrease functions
+  function increaseSessionTime() {
     $('#session-time').text(Number($('#session-time').text()) + 1);
     let timeInSeconds = Number($('#session-time').text()) * 60;
     changeTimer(timeInSeconds, $('#clock'))
-  });
+  }
 
-  $('#increase-break').on('click', function() {
+  function increaseBreakTime() {
     $('#break-time').text(Number($('#break-time').text()) + 1);
-  });
+  }
 
-  $('#decrease-session').on('click', function() {
+  function decreaseSessionTime() {
     let sessionTime = Number($('#session-time').text());
     if (sessionTime > 1) {
       $('#session-time').text(sessionTime - 1);
       let timeInSeconds = Number($('#session-time').text()) * 60;
       changeTimer(timeInSeconds, $('#clock'))
     }
-  });
+  }
 
-  $('#decrease-break').on('click', function() {
+  function decreaseBreakTime() {
     let breakTime = Number($('#break-time').text());
     if (breakTime > 1) {
       $('#break-time').text(breakTime - 1);
     }
-  });
+  }
+
+  function attachSessionBreakControls() {
+    $('#increase-session').on('click', increaseSessionTime);
+    $('#increase-break').on('click', increaseBreakTime);
+    $('#decrease-session').on('click', decreaseSessionTime);
+    $('#decrease-break').on('click', decreaseBreakTime);
+  }
+
+  function detachSessionBreakControls() {
+    $('#increase-session').off();
+    $('#increase-break').off();
+    $('#decrease-session').off();
+    $('#decrease-break').off();
+  }
+
+  attachSessionBreakControls();
 
   $('#play').on('click', function() {
     if (!currentTime) {
@@ -115,6 +132,7 @@ $(document).ready(function() {
         isPaused = false;
         timerId = setInterval(countdown, 1000, $('#clock'));
     }
+    detachSessionBreakControls();
   });
 
   $('#pause').on('click', function() {
@@ -130,7 +148,8 @@ $(document).ready(function() {
 
     let timeInSeconds = Number($('#session-time').text()) * 60;
     currentTime = timeInSeconds;
-    changeTimer(timeInSeconds, $('#clock'))
+    changeTimer(timeInSeconds, $('#clock'));
+    attachSessionBreakControls();
   });
 
   $('#reset').on('click', function() {
@@ -142,7 +161,8 @@ $(document).ready(function() {
     $('#break-time').text(defaultBreak);
 
     currentTime = defaultTime * 60;
-    changeTimer(defaultTime * 60, $('#clock'))
+    changeTimer(defaultTime * 60, $('#clock'));
+    attachSessionBreakControls();
   });
 
 });
