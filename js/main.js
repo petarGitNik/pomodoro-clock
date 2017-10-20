@@ -76,15 +76,19 @@ function countdown(timerObject, indicatorObject) {
    * Decrement timer and display it on page.
    */
   // if (currentTime < 0) { ... }
+  if (currentTime < 0) {
+    [isSession, isBreak] = [isBreak, isSession];
+    currentTime = isBreak ? userBreak * 60 : userTime * 60;
+  }
   if (currentTime >= 0) {
     isBreak ? indicatorObject.text('Break') : indicatorObject.text('Session');
     changeTimer(currentTime, timerObject);
     currentTime--;
-  } else {
+  } /*else {
     // This takes up an extra second, how to rewrite this method?
     [isSession, isBreak] = [isBreak, isSession];
     currentTime = isBreak ? userBreak * 60 : userTime * 60;
-  }
+  }*/
 }
 
 
