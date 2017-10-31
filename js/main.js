@@ -78,12 +78,25 @@ function countdown(timerObject, indicatorObject) {
   if (currentTime < 0) {
     [isSession, isBreak] = [isBreak, isSession];
     currentTime = isBreak ? userBreak * 60 : userTime * 60;
+    playSound('sound/chinese-gong-daniel-simon');
   }
   if (currentTime >= 0) {
     isBreak ? indicatorObject.text('Break') : indicatorObject.text('Session');
     changeTimer(currentTime, timerObject);
     currentTime--;
   }
+}
+
+
+function playSound(filename) {
+  /*
+   * Play the sound located with the given filename
+   * This function is taken from:
+   * https://stackoverflow.com/questions/10105063/how-to-play-a-notification-sound-on-websites
+   * archived version:
+   * 
+   */
+  document.getElementById('sound').innerHTML = '<audio autoplay="autoplay"><source src="' + filename + '.mp3" type="audio/mpeg" /><source src="' + filename + '.ogg" type="audio/ogg" /><embed hidden="true" autostart="true" loop="false" src="' + filename +'.mp3" /></audio>';
 }
 
 
