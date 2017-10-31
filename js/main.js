@@ -94,7 +94,7 @@ function playSound(filename) {
    * This function is taken from:
    * https://stackoverflow.com/questions/10105063/how-to-play-a-notification-sound-on-websites
    * archived version:
-   * 
+   * https://archive.is/2rFhf
    */
   document.getElementById('sound').innerHTML = '<audio autoplay="autoplay"><source src="' + filename + '.mp3" type="audio/mpeg" /><source src="' + filename + '.ogg" type="audio/ogg" /><embed hidden="true" autostart="true" loop="false" src="' + filename +'.mp3" /></audio>';
 }
