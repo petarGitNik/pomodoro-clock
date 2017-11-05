@@ -1,4 +1,5 @@
-# Test First Python project
+# pomodoro-clock
+
  Solution to the project on [The Odin Project](http://www.theodinproject.com/).
 
 * Title of the project: _Pairing Project_
